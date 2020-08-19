@@ -1,11 +1,13 @@
 package com.example.braintrainer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import androidx.gridlayout.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     Button ansButton2;
     Button ansButton3;
     Button ansButton4;
+    GridLayout optionsGridLayout;
+    ConstraintLayout gameLayout;
     final int minNumber = 1;
     final int maxNumber = 999;
     final int ansMinNumber = 1;
@@ -44,8 +48,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupGoView() {
         ansCountTextView = (TextView) findViewById(R.id.ansCountTextView);
-        if (ansCountTextView.getVisibility() == View.VISIBLE) {
-            ansCountTextView.setVisibility(View.INVISIBLE);
+        timerTextView = (TextView) findViewById(R.id.timerTextView);
+        questionTextView = (TextView) findViewById(R.id.questionTextView);
+        optionsGridLayout = (GridLayout) findViewById(R.id.optionsGridLayout);
+        ansButton1 = (Button) findViewById(R.id.ansButton1);
+        ansButton2 = (Button) findViewById(R.id.ansButton2);
+        ansButton3 = (Button) findViewById(R.id.ansButton3);
+        ansButton4 = (Button) findViewById(R.id.ansButton4);
+
+        gameLayout = (ConstraintLayout) findViewById(R.id.gameLayout);
+        if (gameLayout.getVisibility() == View.VISIBLE) {
+            gameLayout.setVisibility(View.INVISIBLE);
         }
 
         ansResultTextView = (TextView) findViewById(R.id.ansResultTextView);
@@ -53,36 +66,9 @@ public class MainActivity extends AppCompatActivity {
             ansResultTextView.setVisibility(View.INVISIBLE);
         }
 
-        timerTextView = (TextView) findViewById(R.id.timerTextView);
-        if (timerTextView.getVisibility() == View.VISIBLE) {
-            timerTextView.setVisibility(View.INVISIBLE);
-        }
-
-        questionTextView = (TextView) findViewById(R.id.questionTextView);
-        if (questionTextView.getVisibility() == View.VISIBLE) {
-            questionTextView.setVisibility(View.INVISIBLE);
-        }
-
         playAgainButton = (Button) findViewById(R.id.playAgainButton);
         if (playAgainButton.getVisibility() == View.VISIBLE) {
             playAgainButton.setVisibility(View.INVISIBLE);
-        }
-
-        ansButton1 = (Button) findViewById(R.id.ansButton1);
-        if (ansButton1.getVisibility() == View.VISIBLE) {
-            ansButton1.setVisibility(View.INVISIBLE);
-        }
-        ansButton2 = (Button) findViewById(R.id.ansButton2);
-        if (ansButton2.getVisibility() == View.VISIBLE) {
-            ansButton2.setVisibility(View.INVISIBLE);
-        }
-        ansButton3 = (Button) findViewById(R.id.ansButton3);
-        if (ansButton3.getVisibility() == View.VISIBLE) {
-            ansButton3.setVisibility(View.INVISIBLE);
-        }
-        ansButton4 = (Button) findViewById(R.id.ansButton4);
-        if (ansButton4.getVisibility() == View.VISIBLE) {
-            ansButton4.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -91,37 +77,12 @@ public class MainActivity extends AppCompatActivity {
         validAnswerGiven = 0;
         ansCountTextView.setText("0/0");
 
-        if (ansCountTextView.getVisibility() == View.INVISIBLE) {
-            ansCountTextView.setVisibility(View.VISIBLE);
-        }
-
         if (ansResultTextView.getVisibility() == View.VISIBLE) {
             ansResultTextView.setVisibility(View.INVISIBLE);
         }
 
-        if (timerTextView.getVisibility() == View.INVISIBLE) {
-            timerTextView.setVisibility(View.VISIBLE);
-        }
-
-        if (questionTextView.getVisibility() == View.INVISIBLE) {
-            questionTextView.setVisibility(View.VISIBLE);
-        }
-
         if (playAgainButton.getVisibility() == View.VISIBLE) {
             playAgainButton.setVisibility(View.INVISIBLE);
-        }
-
-        if (ansButton1.getVisibility() == View.INVISIBLE) {
-            ansButton1.setVisibility(View.VISIBLE);
-        }
-        if (ansButton2.getVisibility() == View.INVISIBLE) {
-            ansButton2.setVisibility(View.VISIBLE);
-        }
-        if (ansButton3.getVisibility() == View.INVISIBLE) {
-            ansButton3.setVisibility(View.VISIBLE);
-        }
-        if (ansButton4.getVisibility() == View.INVISIBLE) {
-            ansButton4.setVisibility(View.VISIBLE);
         }
 
         ansButton1.setEnabled(true);
@@ -212,6 +173,8 @@ public class MainActivity extends AppCompatActivity {
     public void go(View view) {
         Button goButton = (Button) findViewById(R.id.goButton);
         goButton.setVisibility(View.INVISIBLE);
+
+        gameLayout.setVisibility(View.VISIBLE);
 
         setupQuestionView();
     }
