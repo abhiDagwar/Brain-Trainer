@@ -173,9 +173,6 @@ public class MainActivity extends AppCompatActivity {
     public void selectAnswer(View view) {
         Button answerButtons = (Button) view;
 
-        int tappedCounter = Integer.parseInt(answerButtons.getTag().toString());
-        Toast.makeText(this, answerButtons.getTag().toString(), Toast.LENGTH_SHORT).show();
-
         if (ansResultTextView.getVisibility() == View.INVISIBLE) {
             ansResultTextView.setVisibility(View.VISIBLE);
         }
