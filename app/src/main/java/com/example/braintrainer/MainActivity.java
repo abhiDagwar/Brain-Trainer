@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
     final int ansMaxNumber = 1998;
     int totalQuestionAttempt = 0;
     int validAnswerGiven = 0;
-    String answer;
+    int answer;
+    ArrayList<Integer> options = new ArrayList<Integer>();
     CountDownTimer countDownTimer;
 
     @Override
@@ -134,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
     private void createQuestion() {
         String num1 = generateRandomNumber(minNumber, maxNumber);
         String num2 = generateRandomNumber(minNumber, maxNumber);
-        answer = Integer.toString(Integer.parseInt(num1) + Integer.parseInt(num2));
+        answer = Integer.parseInt(num1) + Integer.parseInt(num2);
 
         questionTextView.setText(num1 + "+" + num2);
 
@@ -142,31 +144,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createAnswer() {
+        // clear() options before add
+        options.clear();
+
         int randomButton = 0;
-        int min = 1;
-        int max = 4;
+        int min = 0;
+        int max = 3;
         randomButton = Integer.parseInt(generateRandomNumber(min, max));
-        if (randomButton == 1) {
-            ansButton1.setText(answer);
-            ansButton2.setText(generateRandomNumber(ansMinNumber, ansMaxNumber));
-            ansButton3.setText(generateRandomNumber(ansMinNumber, ansMaxNumber));
-            ansButton4.setText(generateRandomNumber(ansMinNumber, ansMaxNumber));
-        } else if (randomButton == 2) {
-            ansButton1.setText(generateRandomNumber(ansMinNumber, ansMaxNumber));
-            ansButton2.setText(answer);
-            ansButton3.setText(generateRandomNumber(ansMinNumber, ansMaxNumber));
-            ansButton4.setText(generateRandomNumber(ansMinNumber, ansMaxNumber));
-        } else if (randomButton == 3) {
-            ansButton1.setText(generateRandomNumber(ansMinNumber, ansMaxNumber));
-            ansButton2.setText(generateRandomNumber(ansMinNumber, ansMaxNumber));
-            ansButton3.setText(answer);
-            ansButton4.setText(generateRandomNumber(ansMinNumber, ansMaxNumber));
-        } else if (randomButton == 4) {
-            ansButton1.setText(generateRandomNumber(ansMinNumber, ansMaxNumber));
-            ansButton2.setText(generateRandomNumber(ansMinNumber, ansMaxNumber));
-            ansButton3.setText(generateRandomNumber(ansMinNumber, ansMaxNumber));
-            ansButton4.setText(answer);
+
+        for (int i = 0; i < 4; i++) {
+            if (i == randomButton) {
+                options.add(answer);
+            } else {
+                int removeDuplicateOption = Integer.parseInt(generateRandomNumber(ansMinNumber, ansMaxNumber));
+                while (removeDuplicateOption == answer) {
+                    removeDuplicateOption = Integer.parseInt(generateRandomNumber(ansMinNumber, ansMaxNumber));
+                }
+                options.add(removeDuplicateOption);
+            }
         }
+
+        ansButton1.setText(Integer.toString(options.get(0)));
+        ansButton2.setText(Integer.toString(options.get(1)));
+        ansButton3.setText(Integer.toString(options.get(2)));
+        ansButton4.setText(Integer.toString(options.get(3)));
     }
 
     public void selectAnswer(View view) {
@@ -181,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
         totalQuestionAttempt = 1 + totalQuestionAttempt;
 
-        if (Integer.parseInt(answer) == Integer.parseInt(answerButtons.getText().toString())) {
+        if (answer == Integer.parseInt(answerButtons.getText().toString())) {
             validAnswerGiven = 1 + validAnswerGiven;
             ansResultTextView.setText("Correct :)");
         } else {
